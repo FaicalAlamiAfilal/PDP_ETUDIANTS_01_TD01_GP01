@@ -15,11 +15,7 @@ void setup() {
   Serial.begin(9600);
   // Initialise le capteur.
   dht.begin();
-}
-
-void loop() {
-
-  // Afficher la température avec un peu de formatage
+    // Afficher la température avec un peu de formatage
   sensors_event_t event;
   dht.temperature().getEvent(&event);
   if (isnan(event.temperature)) {
@@ -40,6 +36,14 @@ void loop() {
     Serial.print(event.relative_humidity);
     Serial.println(F("%"));
   }
-    // Effectuer une mesure toutes les 5s
-  delay(5000);
+    // Effectuer une mesure toutes les 5s(deepsleep)
+  
+  esp_sleep_enable_timer_wakeup(5000000);
+  Serial.flush();
+  esp_deep_sleep_start();
+}
+
+void loop() {
+   
+  
 }
